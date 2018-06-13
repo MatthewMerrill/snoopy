@@ -1,0 +1,14 @@
+{
+  "name": "snoopy",
+  "version": "1.0.0",
+  "description": "snooping on websites",
+  "main": "server/server.js",
+  "author": "Matthew Merrill, Xavier Lamphere",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "lowdb": "^1.0.0",
+    "nconf": "^0.10.0",
+    "node-fetch": "^2.1.2"
+  }
+}
