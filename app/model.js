@@ -5,24 +5,26 @@
 // ███████║██║ ╚████║╚██████╔╝╚██████╔╝██║        ██║
 // ╚══════╝╚═╝  ╚═══╝ ╚═════╝  ╚═════╝ ╚═╝        ╚═╝
 
-const timer = require('timers');
-const fetch = require('node-fetch');
-const gitstore = require('./gitstore.js');
-
-module.exports = function() {
-  function timerCallback() {
-    console.log("Attempting a snapshot at", new Date());
-    gitstore.makeSnapshot();
+export default class Snapshot {
+  constructor(commit_id, description) {
+    this.commit_id = commit_id;
+    this.description = description;
   }
 
-  timer.setInterval(timerCallback,
-    (   27    /* mins */
-      * 60   /* secs */
-      * 1000 /* millis */));
+  static async fetchSnapshots() {
+    try {
+      let snapshots = await (await fetch('/api/snapshots')).json();
+      return snapshots.map(s => new Snapshot(s.commit_id, s.description));
+    } catch (e) {
+      console.error('Error fetching snapshots', e);
+    }
+  }
 
-  try {
-    timerCallback();
-  } catch (err) {
-    console.error(err);
+  static async fetchDiff(base, head) {
+    try {
+      return await (await fetch(`/api/diff/${base}/${head}`)).text()
+    } catch (e) {
+      console.error('Error fetching diff', e);
+    }
   }
 }

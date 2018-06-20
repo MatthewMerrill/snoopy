@@ -11,16 +11,8 @@ console.log(`
 const path = require('path');
 const express = require('express');
 
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('db.json');
-const db = low(adapter);
-
-db.defaults({
-  responses: [],
-}).write();
-
-db.read()
+const gitstore = require('./gitstore.js');
+gitstore.init();
 
 const app = express();
 // http://demo.mattmerr.com/memes
@@ -32,10 +24,20 @@ app.get('/hello', (req, res) => {
   res.send('memes');
 });
 
-app.get('/api/responses', (req, res) => {
-  res.json(db.get('responses').value());
+app.get('/api/snapshots', async (req, res) => {
+  res.json(await gitstore.snapshots());
 })
 
-require('./requester')(db)
+app.get('/api/diff/:base/:head', async (req, res) => {
+  let regex = /^[a-fA-F0-9]+$/;
+  if (regex.test(req.params.base) && regex.test(req.params.base)) {
+    res.send(await gitstore.diff(req.params.base, req.params.head));
+  }
+  else {
+    res.send('No way, Jose!');
+  }
+})
+
+require('./requester')()
 
 app.listen(3000);
