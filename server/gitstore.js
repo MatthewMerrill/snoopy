@@ -49,8 +49,11 @@ module.exports.makeSnapshot = async function() {
   try {
   const {stdout, stderr} =
     await exec('sh download_snapshot.sh', {cwd: './gitstore'});
+    return true;
   } catch (ignored) {
     // probable just git whining about there not being a change
+    // 2019-07-14: thank you past matt for commenting this
+    return false;
   }
 }
 
