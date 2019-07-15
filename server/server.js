@@ -40,4 +40,4 @@ app.get('/api/diff/:base/:head', async (req, res) => {
 
 require('./requester')()
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
