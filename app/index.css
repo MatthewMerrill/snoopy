@@ -20,8 +20,9 @@ body {
   height: 100vh;
 }
 #lastModifiedTimesList, #diffResult {
-  border: double 8px black;
+  border: double 8px #000000;
   background-color: #f8f8f8;
+  color: #000000;
   margin: .5em;
   padding: .5em;
   overflow: scroll;
@@ -61,6 +62,13 @@ input[type=radio] {
   #lastModifiedTimesList {
     height: 60vh;
     min-height: 8em;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  #lastModifiedTimesList, #diffResult {
+    border: double 8px #888;
+    background-color: #333;
+    color: #ffffff;
   }
 }
 
