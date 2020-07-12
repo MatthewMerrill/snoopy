@@ -6,3 +6,62 @@
 ███████║██║ ╚████║╚██████╔╝╚██████╔╝██║        ██║
 ╚══════╝╚═╝  ╚═══╝ ╚═════╝  ╚═════╝ ╚═╝        ╚═╝
 */
+*, h1, h2, h3, h3, h4, h5, h6 {
+  font-size: 1em;
+}
+body {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-center;
+  align-items: stretch;
+  background-color: rebeccapurple;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+#lastModifiedTimesList, #diffResult {
+  border: double 8px black;
+  background-color: #f8f8f8;
+  margin: .5em;
+  padding: .5em;
+  overflow: scroll;
+  font-family: monospace;
+}
+
+#lastModifiedTimesList {
+  min-width: 60ch;
+  flex: 1 1 60ch auto;
+  list-style-type: none;
+  overflow-x: scroll;
+}
+#lastModifiedTimesList li {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+#lastModifiedTimesList li span {
+  white-space: nowrap;
+}
+
+#diffResult {
+  min-width: 80ch;
+  flex: 1 1 80ch;
+}
+
+input[type=radio] {
+  width: 2ch;
+  padding: .25ch;
+}
+
+@media only screen and (max-width: 800px) {
+  body {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+  #lastModifiedTimesList {
+    height: 60vh;
+    min-height: 8em;
+  }
+}
+
+
