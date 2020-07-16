@@ -11,6 +11,7 @@ console.log(`
 const path = require('path');
 const express = require('express');
 
+const { sites } = require('../config.js'); 
 const gitstore = require('./gitstore.js');
 
 const app = express();
@@ -18,6 +19,10 @@ const app = express();
 
 app.use(express.json());
 app.use(express.static('app'));
+
+app.get('/api/sites', async (req, res) => {
+  res.send(sites);
+});
 
 app.get('/api/snapshots/:site', async (req, res) => {
   res.json(await gitstore.snapshots(req.params.site));
@@ -33,8 +38,6 @@ app.get('/api/diff/:site/:base/:head', async (req, res) => {
   }
 })
 
-
-const { sites } = require('../config.js'); 
 for (site of sites) {
   gitstore.init(site);
   require('./requester')(site)

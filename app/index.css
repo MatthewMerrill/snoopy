@@ -11,22 +11,45 @@
 }
 body {
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-center;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
   align-items: stretch;
-  background-color: rebeccapurple;
   margin: 0;
   padding: 0;
+  background-color: rebeccapurple;
+  color: #000000;
   height: 100vh;
+  overflow: hidden;
+}
+body #header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0 .5em;
+  padding: 0;
+  flex-grow: 0;
+}
+
+body #main {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  height: 50vh;
 }
 #lastModifiedTimesList, #diffResult {
   border: double 8px #000000;
   background-color: #f8f8f8;
-  color: #000000;
   margin: .5em;
   padding: .5em;
   overflow: scroll;
   font-family: monospace;
+  flex-shrink: 1;
 }
 
 #lastModifiedTimesList {
@@ -67,11 +90,11 @@ input[type=radio] {
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #38056B;
+    color: #ffffff;
   }
   #lastModifiedTimesList, #diffResult {
     border: double 8px #888;
     background-color: #333;
-    color: #ffffff;
   }
 }
 

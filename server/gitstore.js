@@ -53,7 +53,7 @@ module.exports.snapshots = async function(site) {
 }
 
 module.exports.makeSnapshot = async function(site) {
-  if (!site.match(/[a-z]/i)) {
+  if (!site.match(/^[a-z.]+$/i)) {
     throw Error('Bad Site');
   }
   try {

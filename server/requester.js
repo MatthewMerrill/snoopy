@@ -17,7 +17,7 @@ module.exports = function(site, interval) {
       .then(commitMade => {
         if (commitMade) {
           console.log(`[${site}]    ...changes made!`);
-          wuphf(`WUPH! Site change detected for ${site}.`);
+          wuphf(`WUPHF! Site change detected for ${site}.`);
         } else {
           console.log(`[${site}]    ...nothing to do.`);
         }
