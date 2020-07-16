@@ -29,7 +29,7 @@ app.get('/api/snapshots', async (req, res) => {
 })
 
 app.get('/api/diff/:base/:head', async (req, res) => {
-  let regex = /^[a-fA-F0-9]+$/;
+  let regex = /^([a-fA-F0-9]+|HEAD(~[0-9]+)?)$/;
   if (regex.test(req.params.base) && regex.test(req.params.head)) {
     res.send(await gitstore.diff(req.params.base, req.params.head));
   }

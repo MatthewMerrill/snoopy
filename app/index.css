@@ -65,6 +65,9 @@ input[type=radio] {
   }
 }
 @media (prefers-color-scheme: dark) {
+  body {
+    background-color: #38056B;
+  }
   #lastModifiedTimesList, #diffResult {
     border: double 8px #888;
     background-color: #333;
