@@ -3,6 +3,8 @@ if [ $# -ne 1 ]; then
   echo "$0 site.example";
 fi
 
+rm -r "./$1/*"
+
 wget --execute="robots = off" \
   --mirror --convert-links \
   --no-parent --wait=.1 \
