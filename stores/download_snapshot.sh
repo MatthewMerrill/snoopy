@@ -13,7 +13,7 @@ for file in $(find "$1" | grep -E "\.html$"); do
    "$file"
 done
 
-yarn run prettier --write --parser vue "stores/$1"
+yarn run prettier --write "stores/$1"
 
 git add .
 git commit -m "$(curl -ILs "$1" | grep Last-Modified)"
