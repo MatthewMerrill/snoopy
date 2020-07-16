@@ -10,28 +10,30 @@ const fetch = require('node-fetch');
 const gitstore = require('./gitstore.js');
 const wuphf = require('./wuphf.js');
 
-module.exports = function() {
+module.exports = function(site, interval) {
   function timerCallback() {
-    console.log("Attempting a snapshot at", new Date());
-    gitstore.makeSnapshot()
+    console.log(`[${site}] Attempting a snapshot at`, new Date());
+    gitstore.makeSnapshot(site)
       .then(commitMade => {
         if (commitMade) {
-          console.log('    ...changes made!');
-          wuphf();
+          console.log(`[${site}]    ...changes made!`);
+          wuphf(`WUPH! Site change detected for ${site}.`);
         } else {
-          console.log('    ...nothing to do.');
+          console.log(`[${site}]    ...nothing to do.`);
         }
       });
   }
 
-  timer.setInterval(timerCallback,
-    (   27    /* mins */
-      * 60   /* secs */
-      * 1000 /* millis */));
+  let ivalId = timer.setInterval(timerCallback,
+    ((interval || 27) /* mins */
+      * 60            /* secs */
+      * 1000          /* millis */));
 
   try {
     timerCallback();
+    return ivalId;
   } catch (err) {
+    clearInterval(ivalId);
     console.error(err);
   }
 }

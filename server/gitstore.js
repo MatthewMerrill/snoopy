@@ -9,19 +9,26 @@ const fs = require('fs');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-module.exports.init = function() {
+module.exports.init = function(site) {
+  if (!site.match(/[a-z]/i)) {
+    throw Error('Bad Site');
+  }
   try {
-    fs.mkdirSync('./gitstore');
+    fs.mkdirSync(`./stores/${site}`);
   } catch (ignored) {
     // assuming that just means dir already exists
   }
 
-  exec('git init', {cwd: './gitstore'});
+  exec('git init', {cwd: `./stores/${site}`});
+  
 }
 
-module.exports.snapshots = async function() {
+module.exports.snapshots = async function(site) {
+  if (!site.match(/[a-z]/i)) {
+    throw Error('Bad Site');
+  }
   try {
-    const {stdout, stderr} = await exec('git log', {cwd: './gitstore'});
+    const {stdout, stderr} = await exec('git log', {cwd: `./stores/${site}`});
 
     let lines = stdout.split("\n");
     let snapshot = undefined;
@@ -45,10 +52,13 @@ module.exports.snapshots = async function() {
   }
 }
 
-module.exports.makeSnapshot = async function() {
+module.exports.makeSnapshot = async function(site) {
+  if (!site.match(/[a-z]/i)) {
+    throw Error('Bad Site');
+  }
   try {
   const {stdout, stderr} =
-    await exec('sh download_snapshot.sh', {cwd: './gitstore'});
+    await exec(`sh download_snapshot.sh ${site}`, {cwd: `./stores`});
     return true;
   } catch (ignored) {
     // probable just git whining about there not being a change
@@ -57,10 +67,13 @@ module.exports.makeSnapshot = async function() {
   }
 }
 
-module.exports.diff = async function(base, head) {
+module.exports.diff = async function(site, base, head) {
+  if (!site.match(/[a-z]/i)) {
+    throw Error('Bad Site');
+  }
   try {
     const {stdout, stderr} =
-      await exec(`git diff ${base} ${head}`, {cwd: './gitstore'});
+      await exec(`git diff ${base} ${head}`, {cwd: `./stores/${site}`});
     return stdout;
   } catch (e) {
     return "An error occurred: " + e;
