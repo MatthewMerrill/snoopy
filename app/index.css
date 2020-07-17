@@ -89,8 +89,10 @@ body #main {
 }
 
 input[type=radio] {
-  width: 2ch;
-  padding: .25ch;
+  width: 1em;
+  height: 1em;
+  padding: .1em;
+  flex: 0 0 1em;
 }
 
 @media only screen and (max-width: 1000px) {
