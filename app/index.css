@@ -6,6 +6,16 @@
 ███████║██║ ╚████║╚██████╔╝╚██████╔╝██║        ██║
 ╚══════╝╚═╝  ╚═══╝ ╚═════╝  ╚═════╝ ╚═╝        ╚═╝
 */
+
+@font-face {
+  font-family: 'Source Code Pro';
+  src:
+    local('Source Code Pro'),
+    local('SourceCodePro-Regular'),
+    /* LICENSE: fonts/OFL.txt */
+    url('fonts/SourceCodePro-Regular.ttf');
+}
+
 *, h1, h2, h3, h3, h4, h5, h6 {
   font-size: 1em;
 }
@@ -17,9 +27,11 @@ body {
   margin: 0;
   padding: 0;
   background-color: rebeccapurple;
-  color: #000000;
   height: 100vh;
   overflow: hidden;
+  
+  color: #000000;
+  font-family: 'Source Code Pro';
 }
 body #header {
   display: flex;
@@ -30,11 +42,16 @@ body #header {
   padding: 0;
   flex-grow: 0;
 }
+body #header h1 {
+  font-size: 1.3em;
+  margin: .1em;
+  padding: 0;
+}
 
 body #main {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: stretch;
   margin: 0;
   padding: 0;
@@ -48,13 +65,12 @@ body #main {
   margin: .5em;
   padding: .5em;
   overflow: scroll;
-  font-family: monospace;
-  flex-shrink: 1;
+  font-family: 'Source Code Pro' monospace;
 }
 
 #lastModifiedTimesList {
-  min-width: 60ch;
-  flex: 1 1 60ch auto;
+  min-width: 10ch;
+  flex: 0 1 60ch;
   list-style-type: none;
   overflow-x: scroll;
 }
@@ -68,8 +84,8 @@ body #main {
 }
 
 #diffResult {
-  min-width: 80ch;
-  flex: 1 1 80ch;
+  min-width: 40ch;
+  flex: 4 0 80ch;
 }
 
 input[type=radio] {
@@ -77,14 +93,15 @@ input[type=radio] {
   padding: .25ch;
 }
 
-@media only screen and (max-width: 800px) {
-  body {
+@media only screen and (max-width: 1000px) {
+  body #main {
     display: flex;
     flex-flow: column nowrap;
   }
   #lastModifiedTimesList {
-    height: 60vh;
-    min-height: 8em;
+    height: 40vh;
+    min-height: 4em;
+    flex-basis: 10em;
   }
 }
 @media (prefers-color-scheme: dark) {

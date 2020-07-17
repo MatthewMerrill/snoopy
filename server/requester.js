@@ -10,6 +10,8 @@ const fetch = require('node-fetch');
 const gitstore = require('./gitstore.js');
 const wuphf = require('./wuphf.js');
 
+const { urlBase } = require('../config.js'); 
+
 module.exports = function(site, interval) {
   function timerCallback() {
     console.log(`[${site}] Attempting a snapshot at`, new Date());
@@ -17,7 +19,8 @@ module.exports = function(site, interval) {
       .then(commitMade => {
         if (commitMade) {
           console.log(`[${site}]    ...changes made!`);
-          wuphf(`WUPHF! Site change detected for ${site}.`);
+          wuphf(`WUPHF! Site change detected for ${site}.`
+              + `${urlBase}/#!/${site}/HEAD~1/HEAD`);
         } else {
           console.log(`[${site}]    ...nothing to do.`);
         }

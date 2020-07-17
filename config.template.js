@@ -1,6 +1,25 @@
 module.exports = {
-//  accountSid: 'TWILIO_ACCOUNT_SID',
-//  authToken: 'TWILIO_AUTH_TOKEN',
-//  fromNumber: '+1XXXXXXXXXX',
-//  toNumbers: ['+1XXXXXXXXXX'],
+
+  urlBase: 'https://example.example',
+
+  sites: [
+    'example.example',
+  ],
+
+  enableSMS: false,
+  sms: {
+    accountSid: '',
+    authToken: '',
+    fromNumber: '+1XXXXXXXXXX',
+    toNumbers: [
+      '+1XXXXXXXXXX',
+    ],
+  },
+
+  enableDiscord: false,
+  discord: {
+    clientId: '',
+    clientSecret: '',
+    token: '',
+  },
 };
