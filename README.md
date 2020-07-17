@@ -11,5 +11,5 @@ dashboard of the changes over time..
 Do not use this on any website that you do not own or have permission to use it
 on. No help will be provided in setting this up.
 
-Matthew Merrill 2020
+*Matthew Merrill 2020* https://mattmerr.com
 
