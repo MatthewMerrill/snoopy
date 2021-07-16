@@ -9,10 +9,19 @@ const fs = require('fs');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-module.exports.init = function(site) {
-  if (!site.match(/[a-z]/i)) {
-    throw Error('Bad Site');
+const { sites } = require('../config.js'); 
+
+function isValidSite(site) {
+  return sites.indexOf(site) > -1;
+}
+function assertValidSite(site) {
+  if (!isValidSite(site)) {
+    throw new Error('Invalid Site');
   }
+}
+
+module.exports.init = function(site) {
+  assertValidSite(site);
   try {
     fs.mkdirSync(`./stores/${site}`);
   } catch (ignored) {
@@ -24,11 +33,12 @@ module.exports.init = function(site) {
 }
 
 module.exports.snapshots = async function(site) {
-  if (!site.match(/[a-z]/i)) {
-    throw Error('Bad Site');
-  }
+  assertValidSite(site);
   try {
-    const {stdout, stderr} = await exec('git log', {cwd: `./stores/${site}`});
+    const {stdout, stderr} = await exec('git log', {
+      cwd: `./stores/${site}`, 
+      maxBuffer: 800 * 1024, // 800KB page
+    });
 
     let lines = stdout.split("\n");
     let snapshot = undefined;
@@ -53,9 +63,7 @@ module.exports.snapshots = async function(site) {
 }
 
 module.exports.makeSnapshot = async function(site) {
-  if (!site.match(/^[a-z.]+$/i)) {
-    throw Error('Bad Site');
-  }
+  assertValidSite(site);
   try {
   const {stdout, stderr} =
     await exec(`sh download_snapshot.sh ${site}`, {cwd: `./stores`});
@@ -68,12 +76,13 @@ module.exports.makeSnapshot = async function(site) {
 }
 
 module.exports.diff = async function(site, base, head) {
-  if (!site.match(/[a-z]/i)) {
-    throw Error('Bad Site');
-  }
+  assertValidSite(site);
   try {
     const {stdout, stderr} =
-      await exec(`git diff ${base} ${head}`, {cwd: `./stores/${site}`});
+      await exec(`git diff ${base} ${head}`, {
+        cwd: `./stores/${site}`,
+        maxBuffer: 5 * 1024 * 1024, // 5MB page
+      });
     return stdout;
   } catch (e) {
     return "An error occurred: " + e;

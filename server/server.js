@@ -8,16 +8,13 @@ console.log(`
 
 `);
 
-const path = require('path');
+const app = require('./app.js');
 const express = require('express');
 
 const { sites } = require('../config.js'); 
 const gitstore = require('./gitstore.js');
 
-const app = express();
-// http://demo.mattmerr.com/memes
-
-app.use(express.json());
+app.use('/api', express.json());
 app.use(express.static('app'));
 
 app.get('/api/sites', async (req, res) => {
@@ -43,4 +40,6 @@ for (site of sites) {
   require('./requester')(site)
 }
 
-app.listen(process.env.PORT || 3000);
+const port = process.env.PORT || 3000
+app.listen(port);
+console.log('[server] Now listening on port', port);

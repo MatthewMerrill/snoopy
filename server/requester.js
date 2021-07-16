@@ -20,7 +20,7 @@ module.exports = function(site, interval) {
         if (commitMade) {
           console.log(`[${site}]    ...changes made!`);
           wuphf(`WUPHF! Site change detected for ${site}.`
-              + `${urlBase}/#!/${site}/HEAD~1/HEAD`);
+              + `\n\n${urlBase}/#!/${site}/HEAD~1/HEAD`);
         } else {
           console.log(`[${site}]    ...nothing to do.`);
         }

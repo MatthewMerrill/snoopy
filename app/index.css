@@ -26,7 +26,7 @@ body {
   align-items: stretch;
   margin: 0;
   padding: 0;
-  background-color: rebeccapurple;
+  background-color: #38056B;
   height: 100vh;
   overflow: hidden;
   
@@ -37,15 +37,18 @@ body #header {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: top;
   margin: 0 .5em;
   padding: 0;
   flex-grow: 0;
 }
-body #header h1 {
+body #header #logo {
+  color: #ffffff;
   font-size: 1.3em;
   margin: .1em;
   padding: 0;
+  height: 1.3em;
+  vertical-align: bottom;
 }
 
 body #main {

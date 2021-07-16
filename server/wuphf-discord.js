@@ -9,52 +9,57 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 const { token } = require('../config.js').discord || {}; 
+const registry = require('./wuphf-registry.js');
 
-const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('db.json');
-const db = low(adapter);
-
-function broadcast(body) {
-  for (let channelId of channels.value()) {
-    client.channels.fetch(channelId).then(ch => ch.send(body));
-  }
+function sendMessage(body, channelId) {
+  client.channels.fetch(channelId).then(ch => ch.send(body));
 }
 let backlog = [];
 
-module.exports = function(body) {
+module.exports = function(body, target) {
   if (backlog === null) {
-    broadcast(body);
+    sendMessage(body, target);
   }
   else {
-    backlog.push(body);
+    backlog.push([body, target]);
   }
 }
 
-let channels = db.defaults({ discord: { channels: [], }, })
-  .get('discord')
-  .get('channels');
-
-channels.write();
-
 client.on('ready', () => {
-  console.log(`Logged into Discord as ${client.user.tag}!`);
-  for (let body of backlog) {
-    broadcast(body);
+  console.log(`[wuphf-discord] Logged into Discord as ${client.user.tag}!`);
+  for (let [body, channelId] of backlog) {
+    sendMessage(body, channelId);
   }
   backlog = null;
 });
 
 client.on('message', msg => {
-  if (msg.content === '!snoopy notify enable') {
-    db.get('discord').get('channels').push(msg.channel.id).write();
-    msg.reply("ACK! I'll notify you here.");
-    console.log(`Received request for enabling in in ${msg.channel.id}`); 
+  if (msg.content === "I'll miss you, snoopy.") {
+    msg.reply("I'll miss you too. :(");
+    return;
   }
-  if (msg.content === '!snoopy notify disable') {
-    db.get('discord').get('channels').pull(msg.channel.id).write();
+  let enableMatch = msg.content.match(/^!snoopy enable (\*|[.a-zA-Z0-9]+)$/i);
+  if (enableMatch) {
+    let site = enableMatch[1].toLowerCase();
+    if (!registry.isValidSite(site)) {
+      msg.reply("NACK! Invalid Site :(");
+      return;
+    }
+    registry.enable('discord', msg.channel.id, site);
+    msg.reply("ACK! I'll notify you here.");
+    return;
+  }
+
+  let disableMatch = msg.content.match(/^!snoopy disable (\*|[.a-zA-Z0-9]+)$/i);
+  if (disableMatch) {
+    let site = disableMatch[1].toLowerCase();
+    if (!registry.isValidSite(site)) {
+      msg.reply("NACK! Invalid Site :(");
+      return;
+    }
+    registry.disable('discord', msg.channel.id, site);
     msg.reply("ACK! I'll shut up.");
-    console.log(`Received request for disabling in ${msg.channel.id}`);
+    return;
   }
 });
 
