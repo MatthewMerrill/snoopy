@@ -5,3 +5,5 @@ yarn-error.log
 gitstore/
 config.js
 stores/*.txt
+.idea/
+*.iml
