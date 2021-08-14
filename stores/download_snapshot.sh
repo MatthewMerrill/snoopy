@@ -3,17 +3,19 @@ if [ $# -ne 1 ]; then
   echo "$0 site.example";
 fi
 
-rm -r "./$1/*"
+cd "$1"
+git rm -r "./$1/*"
+cd -
 
 wget --execute="robots = off" \
-  --mirror --convert-links \
-  --no-parent --wait=.1 \
-  "$1"
+  --mirror \
+  --no-parent --wait=1 \
+  "$1" --verbose -o "wget-${1}-log.txt"
 
 for file in $(find "$1"); do
  sed -i -E "s/data-cfemail=\"(.+)\"/data-cfemail=\"CLOUDFLARE_PROTECTED_EMAIL\"/" \
    "$file"
- sed -i -E "s/Cloudflare Ray ID: <strong>(.+)<\/strong>/Cloudflare Ray ID: <strong>CLOUDFLARE_THING<\/strong>/" \
+ sed -i -E "s/Cloudflare Ray ID: <strong[^>]+>(.+)<\/strong>/Cloudflare Ray ID: <strong>CLOUDFLARE_THING<\/strong>/" \
    "$file"
  sed -i -E "s/email-protection#[a-zA-Z0-9]+\"/email-protection#CLOUDFLARE_THING\"/" \
    "$file"

@@ -4,3 +4,4 @@ yarn-error
 yarn-error.log
 gitstore/
 config.js
+stores/*.txt

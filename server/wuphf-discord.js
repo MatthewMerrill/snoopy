@@ -12,6 +12,7 @@ const { token } = require('../config.js').discord || {};
 const registry = require('./wuphf-registry.js');
 
 function sendMessage(body, channelId) {
+  console.log('Trying to send to ' + channelId + '...')
   client.channels.fetch(channelId).then(ch => ch.send(body));
 }
 let backlog = [];
