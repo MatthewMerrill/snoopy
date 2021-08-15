@@ -54,18 +54,18 @@ export class DiffView extends Component {
     render() {
         if (this.state.error) {
             console.error(this.state.error);
-            return html`<div id="diffResult">Error: ${this.state.error}</div>`;
+            return html`<pre id="diffResult">Error: ${this.state.error}</pre>`;
         }
         if (this.props.site && this.props.base && this.props.head && !this.state.isLoaded) {
-            return html`<div id="diffResult">Loading...</div>`;
+            return html`<pre id="diffResult">Loading...</pre>`;
         }
         if (!this.state.isLoaded) {
-            return html`<div id="diffResult">Please select base and head.</div>`
+            return html`<pre id="diffResult">Please select base and head.</pre>`
         }
         return html`
-            <div id="diffResult">
+            <pre id="diffResult">
                 ${this.state.value}
-            </div>`;
+            </pre>`;
     }
 }
 
